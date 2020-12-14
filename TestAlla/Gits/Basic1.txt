@@ -1,0 +1,747 @@
+【Git如何操作？】
+一：创建版本库
+什么是版本库？版本库又名仓库，英文名repository，你可以简单的理解一个目录，这个目录里面的所有文件都可以被Git管理起来，
+每个文件的修改，删除，Git都能跟踪，以便任何时刻都可以追踪历史，或者在将来某个时刻还可以将文件“还原”。
+
+所以创建一个版本库也非常简单，如下：我是在F盘->qiye文件夹下，新建一个testgit版本库（目录）
+$ cd F:
+
+$ cd qiye
+
+$ mkdir testgit
+
+$ pwd
+/f/qiye/testgit
+pwd命令是用于显示当前的目录
+
+（可以自己新建项目，在最外层目录下进行git init操作）
+1、通过命令 git init 把这个目录变成git可以管理的仓库，如下：
+$ git init
+这个时候你当前testgit目录下多了一个.git的目录，这个目录是Git来跟踪管理版本的，没事千万不要手动乱改这个目录里面的文件，
+否则，会把git仓库给破坏了
+
+！！！注意 把文件添加到版本库中
+首先要明确下，所有的版本控制系统，只能跟踪文本文件的改动，比如txt文件，网页，所有程序的代码等，Git也不例外，
+版本控制系统可以告诉你每次的改动，但是图片，视频这些二进制文件，虽能也能由版本控制系统管理，但没法跟踪文件的变化，
+只能把二进制文件每次改动串起来，也就是知道图片从1kb变成2kb，但是到底改了啥，版本控制也不知道。
+
+下面先看下demo如下演示：
+我在版本库testgit目录下新建一个记事本文件 readme.txt 内容如下：11111111
+第一步：使用命令 git add readme.txt添加到暂存区里面去。如下：
+$ git add readme.txt
+如果没有任何提示，说明已经添加成功了。
+
+第二步：用命令git commit告诉Git，把文件提交到仓库。
+$ git commit -m "readme.txt提交"//双引号中的内容是提交的注释，可以起任何名字
+现在我们已经提交了一个readme.txt文件了
+
+第三步：通过命令git status来查看是否还有文件未提交，如下：
+$ git status
+(On branch master
+nothing to commit,working directory clean)
+看括号中的内容，说明没有任何文件未提交
+
+第四步：继续来改下readme.txt内容，比如在下面添加一行2222222内容，
+继续使用git status来查看下结果，如下：
+$ git status
+(On branch master
+Changes not staged for commit:
+......
+no changes added to commit(......)）
+上面的命令告诉我们readme.txt文件已被修改，但是未被提交的修改
+
+第五步：我想看看readme.txt文件到底改了什么内容，如何查看？
+可使用git diff readme.txt进行查看，如下：
+$ git diff readme.txt
+......
+(@@ -1 +1,2 @@
+-1111111
++1111111
++2222222)
+如上可以看到，readme.txt文件内容从一行1111111改成二行 添加了一行2222222内容
+
+第六步：知道了对readme.txt文件做了什么修改后，我们可以放心的提交到仓库了，提交修改和提交文件是一样的两步，
+请看第一步（git add）和第二步（git commit）
+莫着急，如下：
+$ git add readme.txt//添加文件
+
+$git status//提交文件之前，查看下状态
+
+$git commit -m "文件增加2222222内容"//提交文件
+
+$git status//提交后，继续查看下状态，显示没有可提交的文件
+
+二：版本回退：
+第一步：如上，我们已经学会了修改文件，现在我继续对readme.txt文件进行修改，再增加一行
+内容为3333333,继续执行命令如下：
+$ git add readme.txt
+
+$ git commit -m "添加readme.txt文件内容为3333333"
+
+第二步：现在我已经对readme.txt文件做了三次修改了，那么我现在想查看下历史记录，如何查呢？
+可以使用git log演示如下所示：
+$ git log
+commit ......//每次提交的版本号
+Author:...
+Date:...
+添加readme.txt文件内容为3333333//最近一次增加内容为3333333
+commit ......//每次提交的版本号
+Author:...
+Date:...
+文件增加2222222内容//上一次提交增加内容为3333333
+commit ......//每次提交的版本号
+Author:...
+Date:...
+readme.txt提交//最初提交的文件
+
+第三步：git log命令显示从最近到最远的显示日志，我们可以看到最近三次提交，最近的一次是，
+增加内容为3333333，上一次是添加内容2222222，第一次默认是1111111，如果嫌上面显示的信息太多的话，
+我们可以使用命令git log -pretty=onrline演示如下：
+$ git log --pretty=oneline
+
+第四步：现在我想使用版本回退操作，我想把当前的版本回退到上一个版本，要使用什么命令呢？
+可以使用如下两种命令，第一种是：git reset --hard HEAD^那么如果要回退到上上个版本只需把
+HEAD^改成HEAD^^以此类推。那么如果要回退到前100个版本的话，使用上面的方法肯定不方便，
+我们可以使用下面的简便命令操作：git reset --hard HEAD~100即可。未回退之前的readme.txt内容如下：
+1111111
+2222222
+3333333
+如果想回退到上一个版本的命令，如下操作：
+$ git reset --hard HEAD^//回退到上一个版本
+HEAD is now at ...... 文件增加2222222内容
+
+第五步：再来查看下readme.txt内容如下：通过命令cat readme.txt查看：
+$ cat readme.txt
+1111111
+2222222
+可以看到，内容已经回退到上一个版本了。
+
+第五步：我们可以继续使用git log 来查看下历史记录信息，如下：
+$ git log
+commit ......//每次提交的版本号
+Author:...
+Date:...
+文件增加2222222内容//上一次提交增加内容为3333333
+commit ......//每次提交的版本号
+Author:...
+Date:...
+readme.txt提交//最初提交的文件
+我们看到增加3333333内容我们没有看到了，但是现在我想回退到最新的版本，如：有3333333的内容要如何恢复呢？
+我们可以通过版本号回退，使用命令方法如下：
+
+第六步：git reset --hard版本号，但是现在的问题假如我已经关掉过一次命令行或者333内容的版本号我并不知道呢？
+要如歌知道增加3333333内容的版本号呢？
+可以通过以下命令获取版本号：git reflog演示如下：
+$ git reflog
+435ccc9 ......
+6fcfc89 HEAD@{1}: commit: 添加readme.txt文件内容为3333333
+......
+通过上面的显示我们可以知道，增加内容333333的版本号是6fcfc89，
+
+第七步：我们现在可以命令git reset --hard 6fcfc89来恢复了。演示如下：
+$ git reset --hard 6fcfc89
+HEAD is now at 6fcfc89 添加readme.txt文件内容为3333333
+
+$ cat readme.txt//查看readme.txt内容如下
+1111111
+2222222
+3333333
+可以看到 目前已经是最新的版本了。
+
+三：理解工作区与暂存区的区别？
+工作区：就是你在电脑上看到的目录，比如目录下testgit里的文件（.git隐藏目录版本库除外）。或者以后需要再新建的目录文件等等都属于工作区范畴。
+版本库（Repository）：工作区有一个隐藏目录.git，这个不属于工作区，这是版本库。其中版本库里面存了很多东西，其中最重要的就是stage(暂存区)，
+还有Git为我们自动创建了第一个分支master,以及指向master的一个指针HEAD。
+
+我们前面说过使用Git提交文件到版本库有两步：
+第一步：是使用git add 把文件添加进去，实际上就是把文件添加到暂存区。
+第二步：使用git commit提交更改，实际上就是把暂存区的所有内容提交到当前分支上。
+
+我们继续使用demo来演示下：
+第一步：我们在readme.txt再添加一行内容为4444444，接着在目录下新建一个文件为test.txt内容为test，我们先用命令git status来查看下状态，
+如下：
+$ git status
+......
+modified:readme.txt//修改文件
+Untracked files:
+......
+test.txt//新增文件
+
+第二步：现在我们先使用git add 命令把2个文件都添加到暂存区中，再使用git status来查看下状态，如下：
+$ git add readme.txt
+
+$ git add test.txt
+
+$ git status
+......
+modified: readme.txt
+new file: test.txt
+
+第三步：接着我们可以使用git commit一次性提交到分支上，如下：
+$ git commit -m "一次性提交所有文件，包括新建文件test.txt"
+......
+$ git status//继续查看状态
+
+四：Git撤销修改和删除文件操作。
+一：撤销修改：
+第一步：比如我现在在readme.txt文件里面增加一行 内容为5555555，我们先通过命令查看，
+如下：
+$ cat readme.txt
+1111111
+2222222
+3333333
+4444444
+5555555
+
+在我未提交之前，我发现添加5555555内容有误，所以我得马上恢复以前的版本，现在我可以有如下几种方法可以做修改：
+第一：如果我知道要删除哪些内容，直接手动更改去掉那些需要的文件，然后add添加到暂存区，最后commit掉。
+第二：我可以按以前的方法直接恢复到上一个版本。使用git reset --hard HEAD^
+
+但是现在我不想使用上面的2种方法，我想直接使用撤销命令，该如何操作呢？
+第二步：我们可以先用git status查看下当前的状态。如下所示：
+$ git status
+......
+(use "git restore<file>..." to discard changes in working directory)
+......
+可以发现，Git会告诉你，git restore -- file可以丢弃工作区的修改
+
+第三步：操作命令git restore -- readme.txt，如下所示：
+$ git restore -- readme.txt
+
+$ cat readme.txt
+1111111
+2222222
+3333333
+4444444
+命令git e=restore -- readme.txt意思就是，把readme.txt文件在工作区做的修改全部撤销，这里有两种情况，如下：
+
+1.readme.txt自动修改后，还没有放到暂存区，使用撤销修改就回到和版本库一模一样的状态。
+另外一种是readme.txt已经放入暂存区了，接着又做了修改，撤销修改就回到暂存区后的状态。
+对于第二种情况，我想我们继续做demo来看下，假如现在我对readme.txt添加一行 内容为6666666，
+我git add增加到暂存区后，接着添加内容7777777，我想通过撤销命令让其回到暂存区后的状态。
+第四步：如下所示：
+$ cat readme.txt
+1111111
+2222222
+3333333
+4444444
+6666666//添加一条内容为6666666
+
+$ git add readme.txt//先放到暂存区中
+
+$ cat readme.txt
+1111111
+2222222
+3333333
+4444444
+6666666
+7777777//接着添加内容7777777，但是没有添加到暂存区（没有add）
+
+$ git restore -- readme.txt//直接使用撤销命令，把未添加到暂存区内容撤销掉
+
+$ cat readme.txt//继续查看下内容，发现内容7777777已经撤销掉了
+1111111
+2222222
+3333333
+4444444
+6666666
+注意：命令git restore -- readme.txt中的--很重要，如果没有--的话，那么命令变成创建分支了。
+
+二：删除文件
+第一步：假如我现在版本库testgit目录添加一个文件b.txt，然后提交。如下：
+$ git add b.txt//添加b.txt文件
+
+$ git commit -m "添加b.txt文件"//接着提交b.txt
+
+$ rm b.txt//我们可以直接在目录下删掉文件或者使用命令rm b.txt
+
+$ git status
+......
+deleted: b.txt//继续查看b.txt文件已经删除了，此时有2个选择，一：直接commit掉，二：从版本库中恢复被删掉的文件
+如上：一般情况下，可以直接在文件目录中把文件删了，或者使用如上rm命令：rm b.txt，
+如果我想彻底从版本库中删掉了此文件的话，可以再执行commit命令 提交掉，现在目录变成了：
+一个.git文件夹和一个readme.txt文档和其他的文件，其余文档文件都被删除
+
+只要没有commit之前，如果我想在版本库中恢复此文件如何操作呢？
+第四步：可以使用如下命令git restore --b.txt，如下所示：
+$ git restore -- b.txt//恢复b.txt文件
+
+$ git restore -- test.txt//恢复test.txt文件
+
+$ git commit -m "提交b.txt和test.txt"
+第五步：再来看看我们testgit目录，添加了2个文件了。如下所示：
+包括.git文件夹和其他文件夹，以及readme.txt文档文件、b.txt文档文件以及test.txt文档文件
+
+五、远程仓库
+1.添加远程库
+(第一二步之前都设置好了)
+第一步，先注册github账号，本地Git仓库和github仓库之间的传输是通过SSH加密的；
+$ git config -- global user.name "Baitangzoe"
+
+$ git config -- global user.email "1094551297@qq.com"
+
+$ git config -- global -- list
+第二步：创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有id_rsa和
+id_rsa.pub这两个文件，如果有的话，直接跳过此如下命令，如果没有的话，打开命令行，输入如下命令：
+$ ssh-keygen-t rsa -C "your_email@example.com"
+a之后，好像也可以不用写
+
+id_rsa是私钥，不能泄露出去，id_rsa.pub是公钥，可以放心的告诉任何人。
+第三步：登录github，打开“settings”中的SSH and...，点击Add an SSH Key，填上任意的title，将id_rsa.pub中的内容
+复制粘贴到Key中，点击Add SSH Key，最后点击Add Key，这时钥匙添加成功；
+
+如何添加远程库？
+现在的情境是：我们已经在本地创建了一个Git仓库后，又想在github创建一个Git仓库，并且希望这两个仓库进行远程同步，
+这样github的仓库可以作为备份，又可以其他人通过该仓库来协作。
+
+第一步，登录github上，然后在右上角找到+“new repository”，填上仓库名称，然后Create repository，
+目前，在github上的这个testGit仓库还是空的，github告诉我们，可以从这个仓库克隆出新的仓库，也可以把一个已有的
+本地仓库与之关联，然后，把本地仓库的内容推送到github仓库。
+
+第二步：在本地的仓库下运行命令git remote add origin 远程仓库地址 把本地仓库与远程仓库关联，再执行
+git push origin master 命令 把本地库的master分支同步到远程仓库，根据提示输入用户名和密码；
+由于远程库是空的，我们第一次推送master分支时，加上-u 参数，Git不但会把本地的master分支内容推送的远程新的
+master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令。
+推送成功后，可以立刻在github页面中看到远程库的内容已经和本地一模一样了。
+git push -u origin master ，之后，从现在起，只要本地作了提交，就可以通过此命令：git push origin master
+
+2.从远程库克隆
+第一步：
+1、）新建一个新的仓库，填写仓库名称；
+勾选Add README，自动生成README.md文件，Creare repository；
+
+再执行以下命令：
+$ git clone 远程仓库地址
+
+2、）或者不新建仓库，在命令行切换到想存放仓库的文件目录下，如我想存在D盘的clone的文件夹下，
+$ cd d:
+
+$ cd clone
+
+再执行以下命令：
+$ git clone 远程仓库地址
+
+第二步：克隆完成后本地就能看到从远程克隆下来的仓库 
+
+六：创建与合并分支
+在版本回退里，我们已经知道，每次提交，Git都把它们串成一条时间线，这条时间线就是一个分支。截止到目前，
+只有一条时间线，在Git里，这个分支叫主分支，即master分支。HEAD严格来说不是指向提交，而是指向master，
+master才是指向提交的，所以，HEAD指向的就是当前分支。
+
+第一步：首先，我们来创建dev分支，然后切换到dev分支上。如下操作：
+$ git checkout -b dev//创建并切换分支
+
+$ git branch//查看当前的分支
+git checkout 命令加上 -b参数表示创建并切换，相当于如下两条命令
+git branch dev
+
+git checkout dev
+
+git branch查看分支，会列出所有的分支，当前分支前面会添加一个星号。然后我们在dev分支上继续做demo,
+比如我们现在在readme.txt再增加一行7777777
+第二步：首先我们先来查看下readme.txt内容，接着添加内容7777777，如下：
+$ cat readme.txt//dev分支上未添加内容之前
+1111111
+2222222
+3333333
+4444444
+6666666
+$ cat readme.txt//添加内容之后
+1111111
+2222222
+3333333
+4444444
+6666666
+7777777
+$ git add readme.txt
+
+$ git commit -m "dev分支上增加内容7777777"
+
+第三步：现在dev分支工作已完成，现在我们切换到主分支master上，继续查看readme.txt内容，如下：
+$ git checkout master//切换分支master
+
+$ cat readme.txt//查看内容7777777不见了，因为不是分支dev
+1111111
+2222222
+3333333
+4444444
+6666666
+
+第四步：现在我们可以把dev分支上的内容合并到分支master上了，可以在master分支上，使用如下命令
+git merge dev 如下所示：
+$ git merge dev//在master分支上合并dev分支内容
+
+$ cat readme.txt//继续查看内容，多了一条7777777
+1111111
+2222222
+3333333
+4444444
+6666666
+7777777
+git merge 命令用于合并指定分支到当前分支上，合并后，再查看readme.txt内容，可以看到，和dev分支最新提交的是
+完全一样的。
+注意到上面的Fast-forward信息，Git告诉我们，这次合并是“快进模式”，也就是直接把master指向dev的当前提交，所以
+合并速度非常快。
+
+第五步：合并完成后，我们可以接着删除dev分支了，操作如下：
+$ git branch -d dev//删除dev分支
+
+$ git branch//查看分支命令
+！总结创建与合并分支命令如下：
+
+查看分支：git branch
+
+创建分支：git branch name
+
+切换分支：git checkout name
+
+创建+切换分支：git checkout –b name
+
+合并某分支到当前分支：git merge name
+
+删除分支：git branch –d name
+ 
+如何解决冲突？
+第一步：新建一个新分支，比如名字叫fenzhi1，在readme.txt添加一行内容8888888，然后提交，如下所示：
+$ git checkout -b fenzhi1//新建并切换分支
+
+$ cat readme.txt
+1111111
+2222222
+3333333
+4444444
+6666666
+7777777
+$ cat readme.txt
+1111111
+2222222
+3333333
+4444444
+6666666
+7777777
+8888888
+$ git add readme.txt
+
+$ git commit -m "添加内容8888888"
+
+第二步：同样，我们现在切换到master分支上来，也在最后一行添加内容，内容为9999999，如下所示：
+$ git checkout master//切换到master分支上
+
+$ cat readme.txt//未添加内容之前
+1111111
+2222222
+3333333
+4444444
+6666666
+7777777
+$cat readme.txt//添加内容9999999之后
+1111111
+2222222
+3333333
+4444444
+6666666
+7777777
+9999999
+$ git add readme.txt
+
+$ git commit -m "在master分支上新增内容9999999"
+
+第三步：现在我们需要在master分支上来合并fenzhi1，如下操作：
+$ git merge fenzhi1//在master分支上合并fenzhi1
+出现conflicts就是产生冲突了
+$ git status//查看状态
+会提示你有一个unmerged paths
+$ cat readme.txt
+1111111
+2222222
+3333333
+4444444
+6666666
+7777777
+<<<<<<<HEAD//
+9999999//
+=======//
+8888888//
+>>>>>>>fenzhi1//冲突代码
+Git用<<<<<<<，=======，>>>>>>>标记出不同分支的内容，其中<<<HEAD是指主分支修改的内容，
+>>>>>fenzhi1 是指fenzhi1上修改的内容
+
+第四步：我们可以修改下如下后保存：
+$ cat readme.txt
+1111111
+2222222
+3333333
+4444444
+6666666
+7777777
+9999999
+$ git add readme.txt
+
+$ git commit -m "conflict fixed"
+
+第五步：如果我想查看分支合并的情况的话，需要使用命令 git log 命令，演示如下：
+$ git log
+
+分支管理策略
+通常合并分支时，git一般使用“Fast forward”模式，在这种模式下，删除分支后，会丢掉分支信息，现在我们来使用带参数
+--no-ff 来禁用“Fast forward”模式。首先我们来做demo演示下：
+创建一个dev分支；
+修改readme.txt内容；
+添加到暂存区；
+切换回主分支（master）；
+合并dev分支，使用命令git merge--no -ff -m“注释”dev
+查看历史记录
+
+$ git checkout -b dev//创建并切换分支
+
+$ git add readme.txt
+
+$ git commit -m "add merge"
+
+$ git checkout master
+
+$ git merge --no ff -m "merge with no-ff" dev//合并dev分支 --no-ff 表示禁用fast forward
+
+$ git branch -d dev//删除dev分支
+下面有被删除分支的版本号
+$ git branch//查看分支
+
+$ git log --graph -- pretty=oneline -- abbrev -commit
+下面被删除的分支信息还在
+
+分支策略：首先master主分支应该是非常稳定的，也就是用来发布新版本，一般情况下不允许在上面干活，
+干活一般情况下在新建的dev分支上干活，干完后，比如说要发表，或者说dev分支代码稳定后可以合并到
+主分支master上来。
+
+七：bug分支
+在开发中，会经常碰到bug问题，那么有了bug就需要修复，在Git中，分支是很强大的，每个bug都可以通过一个临时分支来修复，
+修复完成后，合并分支，然后将临时的分支删除掉。
+第一步：比如我在开发中接到一个404bug时候，我们可以创建一个404分支来修复它，但是，当前的dev分支上的工作还没有提交。比如如下：
+$ git status
+提示：no changes added to commit
+并不是我不想提交，而是工作进行到一半时候，我们还无法提交，比如我这个分支bug要2天完成，但是我
+issue-404 bug需要5个小时内完成。怎么办呢？
+
+第一步：还好，Git还提供了一个stash功能，可以把当前工作现场“隐藏起来”，等以后恢复现场后继续工作。如下：
+$ git stash//将当前的工作现场隐藏起来
+
+$ git status//查看状态，是干净的
+On branch dev
+nothing to commit, working directory clean
+
+所以现在我可以通过issue-404分支来修复bug了
+
+第二步：首先我们要确定在哪个分支上修复bug，比如我现在是在主分支master上来修复的，现在我要在master分支上创建
+一个临时分支，演示如下：
+$ git checkout -b issue-404//在master分支上创建临时分支issue-404
+
+$ cat readme.txt//未修改前查看readme.txt内容
+1111111
+2222222
+3333333
+4444444
+5555555
+6666666
+7777777
+9999999
+1010101
+bbbbbbb
+$ cat readme.txt//修改后把readme.txt内容最后一行bbbbbbb改成aaaaaaa
+
+$ git add readme.txt
+
+$ git commit -m "fix bug 404"
+
+第三步：修复完成后，切换到master分支上，并完成合并，最后删除issue-404分支。演示如下：
+ $ git checkout master//切换到master分支上
+
+$ git merge --no-ff -m "merge bug fix 404" issue-404//合并分支issue-404内容
+
+$ cat readme.txt//合并分支后查看内容如下，和issue-404内容一致
+1111111
+2222222
+3333333
+4444444
+5555555
+6666666
+7777777
+9999999
+1010101
+aaaaaaa
+$ git branch -d issue-404//在master分支上删除临时分支issue-404
+
+第四步：现在，我们回到dev分支上干活了
+$ git checkout dev//从master分支切换到dev分支上
+
+$ git status
+显示：no branch dev
+nothing to commit,working directory clean//目前干净的
+工作现场还在，Git把stash内容存在某个地方了，但是需要恢复一下，可以使用如下两个方法：
+
+1、git stash apply恢复，恢复后，stash内容并不删除，你需要使用命令git stash drop来删除；
+2、另一种方式是使用git stash pop，恢复的同时把stash内容也删除了。
+第五步：演示如下：
+$ git stash list
+stash@{0}:WIP on dev: 91dfe16 merge with no-ff//删除前
+$ git stash pop
+
+$ git stash list//没有了
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

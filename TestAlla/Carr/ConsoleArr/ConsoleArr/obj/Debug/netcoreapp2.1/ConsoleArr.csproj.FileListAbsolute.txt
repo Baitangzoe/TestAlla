@@ -1,0 +1,11 @@
+F:\TestA2\Carr\ConsoleArr\ConsoleArr\bin\Debug\netcoreapp2.1\ConsoleArr.deps.json
+F:\TestA2\Carr\ConsoleArr\ConsoleArr\bin\Debug\netcoreapp2.1\ConsoleArr.runtimeconfig.json
+F:\TestA2\Carr\ConsoleArr\ConsoleArr\bin\Debug\netcoreapp2.1\ConsoleArr.runtimeconfig.dev.json
+F:\TestA2\Carr\ConsoleArr\ConsoleArr\bin\Debug\netcoreapp2.1\ConsoleArr.dll
+F:\TestA2\Carr\ConsoleArr\ConsoleArr\bin\Debug\netcoreapp2.1\ConsoleArr.pdb
+F:\TestA2\Carr\ConsoleArr\ConsoleArr\obj\Debug\netcoreapp2.1\ConsoleArr.csprojAssemblyReference.cache
+F:\TestA2\Carr\ConsoleArr\ConsoleArr\obj\Debug\netcoreapp2.1\ConsoleArr.csproj.CoreCompileInputs.cache
+F:\TestA2\Carr\ConsoleArr\ConsoleArr\obj\Debug\netcoreapp2.1\ConsoleArr.AssemblyInfoInputs.cache
+F:\TestA2\Carr\ConsoleArr\ConsoleArr\obj\Debug\netcoreapp2.1\ConsoleArr.AssemblyInfo.cs
+F:\TestA2\Carr\ConsoleArr\ConsoleArr\obj\Debug\netcoreapp2.1\ConsoleArr.dll
+F:\TestA2\Carr\ConsoleArr\ConsoleArr\obj\Debug\netcoreapp2.1\ConsoleArr.pdb

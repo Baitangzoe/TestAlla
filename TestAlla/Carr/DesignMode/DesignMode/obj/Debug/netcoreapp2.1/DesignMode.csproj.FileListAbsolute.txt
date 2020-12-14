@@ -1,0 +1,11 @@
+F:\TestA2\Carr\DesignMode\DesignMode\bin\Debug\netcoreapp2.1\DesignMode.deps.json
+F:\TestA2\Carr\DesignMode\DesignMode\bin\Debug\netcoreapp2.1\DesignMode.runtimeconfig.json
+F:\TestA2\Carr\DesignMode\DesignMode\bin\Debug\netcoreapp2.1\DesignMode.runtimeconfig.dev.json
+F:\TestA2\Carr\DesignMode\DesignMode\bin\Debug\netcoreapp2.1\DesignMode.dll
+F:\TestA2\Carr\DesignMode\DesignMode\bin\Debug\netcoreapp2.1\DesignMode.pdb
+F:\TestA2\Carr\DesignMode\DesignMode\obj\Debug\netcoreapp2.1\DesignMode.csprojAssemblyReference.cache
+F:\TestA2\Carr\DesignMode\DesignMode\obj\Debug\netcoreapp2.1\DesignMode.csproj.CoreCompileInputs.cache
+F:\TestA2\Carr\DesignMode\DesignMode\obj\Debug\netcoreapp2.1\DesignMode.AssemblyInfoInputs.cache
+F:\TestA2\Carr\DesignMode\DesignMode\obj\Debug\netcoreapp2.1\DesignMode.AssemblyInfo.cs
+F:\TestA2\Carr\DesignMode\DesignMode\obj\Debug\netcoreapp2.1\DesignMode.dll
+F:\TestA2\Carr\DesignMode\DesignMode\obj\Debug\netcoreapp2.1\DesignMode.pdb

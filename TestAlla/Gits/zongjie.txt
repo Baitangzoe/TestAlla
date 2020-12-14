@@ -1,0 +1,72 @@
+总结：其实只需要进行下面几步就能把本地项目上传到Github
+
+     1、在本地创建一个版本库（即文件夹），通过git init把它变成Git仓库；
+
+     2、把项目复制到这个文件夹里面，再通过git add .把项目添加到仓库；
+
+     3、再通过git commit -m "注释内容"把项目提交到仓库；
+
+     4、在Github上设置好SSH密钥后，新建一个远程仓库，
+     通过git remote add origin https://github.com/guyibang/TEST2.git将本地仓库和远程仓库进行关联；
+
+     5、最后通过git push -u origin master把本地仓库的项目推送到远程仓库（也就是Github）上；
+   （若新建远程仓库的时候自动创建了README文件会报错，解决办法看上面）。
+
+     1、本地创建分支
+     $ git checkout feature-0401
+     2、查看分支
+     $ git branch
+     3、提交该分支到远程仓库
+     $ git push origin feature-0401
+     4、拉取分支,提示错误
+     $ git pull
+     5、把远程分支和本地分支关联
+     $ git branch --set-upstream-to=origin/feature-0401 feature-0401
+     6、再去拉取分支
+     git 切换分支(远程已存在分支,pull完之后直接checkout即可)
+     1、查看所有远程仓库分支,确定当前分支与要合并的分支
+     git branch -a
+     2、切换到远程dev分支
+     git checkout -b dev origin/dev
+
+     git分支合并
+     1、回退上一个版本
+     git reset --hard 667c54ca6fbfd63928da7fdb0592e0599ea48b79
+
+     2、对比master
+     git diff master
+
+     3、把本地master合并到当前分支
+     git merge master
+
+     4、查看日志是否合并成功
+     git log
+
+     5、强制push到当前分支对应的远程仓库
+     git push -f
+
+     6、至此分支合并成功
+
+     git fatch 与git pull 区别:
+     1、git pull：相当于是从远程获取最新版本并merge到本地
+     2、git pull origin master :相当于git fetch 和 git merge
+
+     1、git fetch origin master:tmp
+     2、git diff tmp
+     3、git merge tmp
+     从远程获取最新的版本到本地的test分支上
+     之后再进行比较合并
+
+     删除错误git add的内容
+     将file退回到unstage区
+     git reset HEAD filename
+
+
+
+
+
+
+
+
+
+
